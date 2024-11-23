@@ -20,6 +20,7 @@
 
 /* Begin PBXFileReference section */
 		5A4D3EE22CF2177C00EF0202 /* CalendarCLI */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CalendarCLI; sourceTree = BUILT_PRODUCTS_DIR; };
+		5A4D3EED2CF21A0B00EF0202 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -44,6 +45,7 @@
 		5A4D3ED92CF2177C00EF0202 = {
 			isa = PBXGroup;
 			children = (
+				5A4D3EED2CF21A0B00EF0202 /* Info.plist */,
 				5A4D3EE42CF2177C00EF0202 /* CalendarCLI */,
 				5A4D3EE32CF2177C00EF0202 /* Products */,
 			);
@@ -248,9 +250,11 @@
 		5A4D3EEA2CF2177C00EF0202 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = CalendarCLI/CalendarCLI.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4L52G9536P;
 				ENABLE_HARDENED_RUNTIME = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.minho42.CalendarCLI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -259,9 +263,11 @@
 		5A4D3EEB2CF2177C00EF0202 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = CalendarCLI/CalendarCLI.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4L52G9536P;
 				ENABLE_HARDENED_RUNTIME = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.minho42.CalendarCLI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
