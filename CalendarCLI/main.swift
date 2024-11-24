@@ -55,12 +55,13 @@ class CalendarReader {
                 if !currentDate.isEmpty {
                     print("")
                 }
+                // 1: bold, 33: yellow
                 currentDate = eventDate
                 let currentDateStyled =
                 "\u{001B}[1;33m\(currentDate)\u{001B}[0m"
                 print(currentDateStyled)
             }
-            
+            // 32: green
             let titleStyled =
             "\u{001B}[32m\(event.title ?? "")\u{001B}[0m"
             print("· \(titleStyled)")
