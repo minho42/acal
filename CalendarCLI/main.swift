@@ -47,9 +47,22 @@ class CalendarReader {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd (EEE)"
         
+        let today = Calendar.current.startOfDay(for: Date())
+        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today)!
+        
         var currentDate = ""
         for event in events.sorted(by: { $0.startDate < $1.startDate }) {
-            let eventDate = dateFormatter.string(from: event.startDate)
+            
+            let eventDay = Calendar.current.startOfDay(for: event.startDate)
+            var label = ""
+            
+            if eventDay == today {
+                label = "today"
+            } else if eventDay == tomorrow {
+                label = "tomorrow"
+            }
+            
+            let eventDate = dateFormatter.string(from: event.startDate) + " - \(label)"
             
             if currentDate != eventDate {
                 if !currentDate.isEmpty {
