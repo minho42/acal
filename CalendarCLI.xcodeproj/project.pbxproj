@@ -20,7 +20,6 @@
 
 /* Begin PBXFileReference section */
 		5A4D3EE22CF2177C00EF0202 /* CalendarCLI */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CalendarCLI; sourceTree = BUILT_PRODUCTS_DIR; };
-		5A4D3EED2CF21A0B00EF0202 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -45,7 +44,6 @@
 		5A4D3ED92CF2177C00EF0202 = {
 			isa = PBXGroup;
 			children = (
-				5A4D3EED2CF21A0B00EF0202 /* Info.plist */,
 				5A4D3EE42CF2177C00EF0202 /* CalendarCLI */,
 				5A4D3EE32CF2177C00EF0202 /* Products */,
 			);

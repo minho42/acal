@@ -37,50 +37,13 @@ class CalendarReader {
         
         return eventStore.events(matching: predicate)
     }
-    
-    func displayEvents(_ events: [EKEvent]) {
-        if events.isEmpty {
-            print("empty")
-            return
-        }
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd (EEE)"
-        
-        let today = Calendar.current.startOfDay(for: Date())
-        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today)!
-        
-        var currentDate = ""
-        for event in events.sorted(by: { $0.startDate < $1.startDate }) {
-            
-            let eventDay = Calendar.current.startOfDay(for: event.startDate)
-            var label = ""
-            
-            if eventDay == today {
-                label = "today"
-            } else if eventDay == tomorrow {
-                label = "tomorrow"
+
+    func displayEvents(_ groupedEvents: [String: [EKEvent]]) {
+        for (day, events) in groupedEvents.sorted(by: { $0.key < $1.key }) {
+            print("\u{001B}[1;33m\(day):\u{001B}[0m")
+            for event in events {
+                print("· \u{001B}[32m\(event.title ?? "")\u{001B}[0m")
             }
-            
-            let eventDate = dateFormatter.string(from: event.startDate) + " - \(label)"
-            
-            if currentDate != eventDate {
-                if !currentDate.isEmpty {
-                    print("")
-                }
-                // 1: bold, 33: yellow
-                currentDate = eventDate
-                let currentDateStyled =
-                "\u{001B}[1;33m\(currentDate)\u{001B}[0m"
-                print(currentDateStyled)
-            }
-            // 32: green
-            let titleStyled =
-            "\u{001B}[32m\(event.title ?? "")\u{001B}[0m"
-            print("· \(titleStyled)")
-        }
-        
-        if !events.isEmpty {
             print("")
         }
     }
@@ -99,7 +62,40 @@ Task {
     }
     
     let events = await reader.fetchEvents(days: daysToFetch)
-    reader.displayEvents(events)
+    let groupedEvents = groupEventsByDay(events, days: daysToFetch)
+    reader.displayEvents(groupedEvents)
 }
 
 RunLoop.main.run(until: Date(timeIntervalSinceNow: 0.5))
+
+func groupEventsByDay(_ events: [EKEvent], days daysToFetch: Int) -> [String: [EKEvent]] {
+    let cal = Calendar.current
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd (EEE)"
+    let today = cal.startOfDay(for: Date())
+
+    var result: [String: [EKEvent]] = [:]
+    
+    for event in events {
+        let eventStart = event.startDate!
+        let eventEnd = event.endDate!
+        
+        for dayOffset in 0..<daysToFetch {
+            let currentDay = cal.date(byAdding: .day, value: dayOffset, to: today)!
+            let startOfDay = cal.startOfDay(for: currentDay)
+            let endOfDay = cal.date(byAdding: .day, value: 1, to: startOfDay)!
+            
+            
+            if cal.isDate(eventStart, inSameDayAs: currentDay) ||
+                cal.isDate(eventEnd, inSameDayAs: currentDay) ||
+                (eventStart < startOfDay && eventEnd > endOfDay) {
+                let dayKey = dateFormatter.string(from: currentDay)
+                if result[dayKey] == nil {
+                    result[dayKey] = []
+                }
+                result[dayKey]?.append(event)
+            }
+        }
+    }
+    return result
+}
